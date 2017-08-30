@@ -1,0 +1,25 @@
+{
+  "name": "autostructure-docker_ee",
+  "version": "0.1.0",
+  "author": "autostructure",
+  "summary": "Installs and configures Docker Enterprise Edition.",
+  "license": "Apache-2.0",
+  "source": "https://github.com/autostructure/docker_ee.git",
+  "project_page": "https://github.com/autostructure/docker_ee",
+  "issues_url": "https://github.com/autostructure/docker_ee/issues",
+  "dependencies": [
+    {
+      "name": "puppetlabs-stdlib",
+      "version_requirement": ">= 1.0.0"
+    }
+  ],
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "RedHat",
+      "operatingsystemrelease": [
+        "7"
+      ]
+    }
+  ],
+  "data_provider": null
+}
