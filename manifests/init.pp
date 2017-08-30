@@ -23,10 +23,12 @@
 #
 class docker_ee(
   Stdlib::Httpurl $docker_ee_url,
-  Numeric $docker_os_version = 7,
+  String $docker_os_version = '7',
   ) {
   class { '::docker_ee::pre_install': }
   ~> class { '::docker_ee::yum_memcache': }
   -> class { '::docker_ee::install': }
+  -> class { '::docker_ee::configure': }
+  ~> class { '::docker_ee::run': }
   -> Class['docker_ee']
 }

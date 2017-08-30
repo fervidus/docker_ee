@@ -9,7 +9,7 @@ class docker_ee::pre_install {
   # Put EE repository URL in  /etc/yum/vars/dockerosversion
   file { '/etc/yum/vars/dockerosversion':
     ensure  => file,
-    content => "${::docker_ee::docker_os_version} ",
+    content => $::docker_ee::docker_os_version,
   }
 
   $docker_ee_required_packages = ['yum-utils', 'device-mapper-persistent-data', 'lvm2']

@@ -6,7 +6,9 @@ describe 'docker_ee' do
     it { should contain_class('docker_ee') }
     it { should contain_class('docker_ee::pre_install').that_notifies('Class[docker_ee::yum_memcache]') }
     it { should contain_class('docker_ee::yum_memcache').that_comes_before('Class[docker_ee::install]') }
-    it { should contain_class('docker_ee::install') }
+    it { should contain_class('docker_ee::install').that_comes_before('Class[docker_ee::configure]') }
+    it { should contain_class('docker_ee::configure').that_notifies('Class[docker_ee::run]') }
+    it { should contain_class('docker_ee::run') }
 
     it { is_expected.to contain_package('device-mapper-persistent-data') }
     it { is_expected.to contain_package('lvm2') }
@@ -15,6 +17,9 @@ describe 'docker_ee' do
 
     it { is_expected.to contain_file('/etc/yum/vars/dockerosversion') }
     it { is_expected.to contain_file('/etc/yum/vars/dockerurl') }
+    it { is_expected.to contain_file('/etc/docker/daemon.json') }
+
+    it { is_expected.to contain_service('docker') }
 
     it { is_expected.to compile.with_all_deps }
   end
