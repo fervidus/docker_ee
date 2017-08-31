@@ -1,6 +1,6 @@
 {
   "name": "autostructure-docker_ee",
-  "version": "0.1.6",
+  "version": "0.1.8",
   "author": "autostructure",
   "summary": "Installs and configures Docker Enterprise Edition.",
   "license": "Apache-2.0",

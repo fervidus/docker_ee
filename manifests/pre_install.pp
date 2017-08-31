@@ -12,6 +12,21 @@ class docker_ee::pre_install {
     content => $::docker_ee::docker_os_version,
   }
 
+  $docker_ee_remove_packages = [
+    'docker',
+    'docker-common',
+    'docker-selinux',
+    'docker-engine-selinux',
+    'docker-engine'
+  ]
+
+  # Remove old docker installs
+  $docker_ee_remove_packages.each | Integer $index, String $package_name | {
+    package { $package_name:
+      ensure => absent,
+    }
+  }
+
   $docker_ee_required_packages = ['yum-utils', 'device-mapper-persistent-data', 'lvm2']
 
   $docker_ee_required_packages.each | Integer $index, String $package_name | {
