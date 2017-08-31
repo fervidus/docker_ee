@@ -15,8 +15,6 @@ class docker_ee::pre_install {
   $docker_ee_remove_packages = [
     'docker',
     'docker-common',
-    'docker-selinux',
-    'docker-engine-selinux',
     'docker-engine'
   ]
 
