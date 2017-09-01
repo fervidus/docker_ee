@@ -1,3 +1,7 @@
+## Release 1.0.1
+
+Utilize RedHat yum-config-manager to install docker-ee repo
+
 ## Release 1.0.0
 
 ### Summary

@@ -4,7 +4,8 @@ describe 'docker_ee' do
     let(:params) { { 'docker_ee_url' => 'http://autostructure.io/docker.repo' } }
 
     it { should contain_class('docker_ee') }
-    it { should contain_class('docker_ee::pre_install').that_notifies('Class[docker_ee::yum_memcache]') }
+    it { should contain_class('docker_ee::pre_install').that_comes_before('Class[docker_ee::yum_configure]') }
+    it { should contain_class('docker_ee::yum_configure').that_notifies('Class[docker_ee::yum_memcache]') }
     it { should contain_class('docker_ee::yum_memcache').that_comes_before('Class[docker_ee::install]') }
     it { should contain_class('docker_ee::install').that_comes_before('Class[docker_ee::configure]') }
     it { should contain_class('docker_ee::configure').that_notifies('Class[docker_ee::run]') }
@@ -18,6 +19,9 @@ describe 'docker_ee' do
     it { is_expected.to contain_file('/etc/yum/vars/dockerosversion') }
     it { is_expected.to contain_file('/etc/yum/vars/dockerurl') }
     it { is_expected.to contain_file('/etc/docker/daemon.json') }
+
+    it { is_expected.to contain_exec('/bin/yum makecache fast') }
+    it { is_expected.to contain_exec('/bin/yum-config-manager --add-repo http://autostructure.io/docker.repo/rhel/docker-ee.repo').that_notifies('Exec[/bin/yum makecache fast]') }
 
     it { is_expected.to contain_service('docker') }
 

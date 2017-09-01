@@ -26,6 +26,7 @@ class docker_ee(
   String $docker_os_version = '7',
   ) {
   class { '::docker_ee::pre_install': }
+  -> class { '::docker_ee::yum_configure': }
   ~> class { '::docker_ee::yum_memcache': }
   -> class { '::docker_ee::install': }
   -> class { '::docker_ee::configure': }

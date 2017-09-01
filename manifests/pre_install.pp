@@ -15,7 +15,7 @@ class docker_ee::pre_install {
   $docker_ee_remove_packages = [
     'docker',
     'docker-common',
-    'docker-engine'
+    'docker-engine',
   ]
 
   # Remove old docker installs
@@ -32,7 +32,4 @@ class docker_ee::pre_install {
       ensure => present,
     }
   }
-
-  # SEt yumrepo
-  yumrepo { "${docker_ee::docker_ee_url}/rhel/docker-ee.repo": }
 }
