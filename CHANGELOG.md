@@ -1,3 +1,7 @@
+## Release 1.0.3
+
+Removed hardening. This security enforcement belongs elsewhere.
+
 ## Release 1.0.1
 
 Utilize RedHat yum-config-manager to install docker-ee repo

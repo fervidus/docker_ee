@@ -1,4 +1,5 @@
 require 'spec_helper'
+
 describe 'docker_ee' do
   context 'with default values for all parameters' do
     let(:params) { { 'docker_ee_url' => 'http://autostructure.io/docker.repo' } }
@@ -18,7 +19,7 @@ describe 'docker_ee' do
 
     it { is_expected.to contain_file('/etc/yum/vars/dockerosversion') }
     it { is_expected.to contain_file('/etc/yum/vars/dockerurl') }
-    it { is_expected.to contain_file('/etc/docker/daemon.json') }
+    # it { is_expected.to contain_file('/etc/docker/daemon.json') }
 
     it { is_expected.to contain_exec('/bin/yum makecache fast') }
     it { is_expected.to contain_exec('/bin/yum-config-manager --add-repo http://autostructure.io/docker.repo/rhel/docker-ee.repo').that_notifies('Exec[/bin/yum makecache fast]') }
