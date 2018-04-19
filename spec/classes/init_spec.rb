@@ -4,13 +4,13 @@ describe 'docker_ee' do
   context 'with default values for all parameters' do
     let(:params) { { 'docker_ee_url' => 'http://autostructure.io/docker.repo' } }
 
-    it { should contain_class('docker_ee') }
-    it { should contain_class('docker_ee::pre_install').that_comes_before('Class[docker_ee::yum_configure]') }
-    it { should contain_class('docker_ee::yum_configure').that_notifies('Class[docker_ee::yum_memcache]') }
-    it { should contain_class('docker_ee::yum_memcache').that_comes_before('Class[docker_ee::install]') }
-    it { should contain_class('docker_ee::install').that_comes_before('Class[docker_ee::configure]') }
-    it { should contain_class('docker_ee::configure').that_notifies('Class[docker_ee::run]') }
-    it { should contain_class('docker_ee::run') }
+    it { is_expected.to contain_class('docker_ee') }
+    it { is_expected.to contain_class('docker_ee::pre_install').that_comes_before('Class[docker_ee::yum_configure]') }
+    it { is_expected.to contain_class('docker_ee::yum_configure').that_notifies('Class[docker_ee::yum_memcache]') }
+    it { is_expected.to contain_class('docker_ee::yum_memcache').that_comes_before('Class[docker_ee::install]') }
+    it { is_expected.to contain_class('docker_ee::install').that_comes_before('Class[docker_ee::configure]') }
+    it { is_expected.to contain_class('docker_ee::configure').that_notifies('Class[docker_ee::run]') }
+    it { is_expected.to contain_class('docker_ee::run') }
 
     it { is_expected.to contain_package('device-mapper-persistent-data') }
     it { is_expected.to contain_package('lvm2') }

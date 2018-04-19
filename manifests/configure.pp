@@ -2,7 +2,7 @@
 class docker_ee::configure {
   $devicemapper_content = @("DEVICEMAPPER"/L)
     {
-      "storage-driver": "devicemapper"
+      "storage-driver": "overlay2"
     }
     | DEVICEMAPPER
 
@@ -11,7 +11,7 @@ class docker_ee::configure {
     incl    => '/etc/docker/daemon.json',
     changes => [
       'set dict/entry[.=\'storage-driver\'] storage-driver',
-      'set dict/entry[.=\'storage-driver\']/string devicemapper',
+      'set dict/entry[.=\'storage-driver\']/string overlay2',
     ],;
   }
 }
