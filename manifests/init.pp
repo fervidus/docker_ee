@@ -21,10 +21,11 @@
 #
 # Copyright 2017 Autostructure
 #
-class docker_ee(
+class docker_ee (
   Stdlib::Httpurl $docker_ee_url,
   String $docker_os_version = '7',
-  ) {
+) {
+
   class { '::docker_ee::pre_install': }
   -> class { '::docker_ee::yum_configure': }
   ~> class { '::docker_ee::yum_memcache': }
@@ -32,4 +33,12 @@ class docker_ee(
   -> class { '::docker_ee::configure': }
   ~> class { '::docker_ee::run': }
   -> Class['docker_ee']
+  -> Class['::harden_docker']
+
+  class { '::harden_docker':
+    restrict_network_traffic_between_containers => false,
+    disable_userland_proxy                      => false,
+    enable_live_restore                         => false,
+  }
+
 }

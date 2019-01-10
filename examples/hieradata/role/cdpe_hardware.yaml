@@ -1,0 +1,8 @@
+---
+# Field hiera.yaml hierarchy entry:
+#  - "role/%{::trusted.extensions.pp_role}"
+# This file is for:
+# pp_role = cdpe_hardware
+#
+profile::docker_ee::docker_ee_url: https://storebits.docker.com/ee/centos/sub-d0519671-678e-4e17-9f95-652215c673ab/centos/7/x86_64/stable
+profile::docker_ee::docker_os_version: 7
