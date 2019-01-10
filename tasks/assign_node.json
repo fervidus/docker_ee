@@ -1,0 +1,15 @@
+{
+  "puppet_task_version": 1,
+  "supports_noop": false,
+  "description": "Assign a node a UCP manager or worker role",
+  "parameters": {
+    "join_token": {
+      "type": "String",
+      "description": "The token from the command 'docker swarm join-token manager/worker' (e.g. SWMTKN-1-0lna8pilvsrl0ul0ie9r0m1s0g6xqhs7gyup2t1b5no3c9fx1n-dxv7s17j6eowpoq3fky2102ex).  The type of token dictates the role assigned.  There is one token for managers and one for workers."
+    },
+    "ucp_addr": {
+      "type": "String",
+      "description": "e.g. ucp.domain.com, 192.168.0.100, etc."
+    }
+  }
+}

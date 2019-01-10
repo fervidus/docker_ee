@@ -1,0 +1,11 @@
+{
+  "puppet_task_version": 1,
+  "supports_noop": false,
+  "description": "Report on any node's scheduler setting (must run on manager nodes only, but can specify workers or managers in the node parameter.)",
+  "parameters": {
+    "node": {
+      "type": "String",
+      "description": "The target node's hostname"
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "puppet_task_version": 1,
+  "supports_noop": false,
+  "description": "Only run on UCP managers, outputs all the clustered nodes",
+  "parameters": {
+  }
+}

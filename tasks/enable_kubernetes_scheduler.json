@@ -1,0 +1,14 @@
+{
+  "puppet_task_version": 1,
+  "supports_noop": false,
+  "description": "Set Docker scheduler to Kubernetes and turn off Swarm (MUST be run on a UCP manager).",
+  "parameters": {
+    "node": {
+      "type": "String",
+      "description": "Target node's hostname"
+    }
+  },
+  "implementations": [
+    {"name": "enable_kubernetes_scheduler.sh"}
+  ]
+}

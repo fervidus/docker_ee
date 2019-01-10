@@ -1,0 +1,27 @@
+{
+  "puppet_task_version": 1,
+  "supports_noop": false,
+  "description": "Create a Docker UCP leader",
+  "parameters": {
+    "docker_image": {
+      "type": "String",
+      "description": "e.g. docker/ucp:3.1.0"
+    },
+    "pod_cidr": {
+      "type": "String",
+      "description": "e.g. 10.0.0.0/16"
+    },
+    "ucp_load_balancer": {
+      "type": "String",
+      "description": "e.g. ucp.autostructure.io"
+    },
+    "ucp_admin_username": {
+      "type": "String",
+      "description": "UCP Admin username (e.g. root)"
+    },
+    "ucp_admin_password": {
+      "type": "String",
+      "description": "UCP Admin password"
+    }
+  }
+}

@@ -1,0 +1,9 @@
+---
+# Field hiera.yaml hierarchy entry:
+#  - "role/%{::trusted.extensions.pp_role}"
+# This file is for:
+# pp_role = docker_ucp_manager
+#
+profile::docker_ucp_manager::docker_ee_url: https://storebits.docker.com/ee/centos/sub-d0519671-678e-4e17-9f95-652215c673ab/centos/7/x86_64/stable
+profile::docker_ucp_manager::docker_ee_key_source: https://storebits.docker.com/ee/centos/sub-d0519671-678e-4e17-9f95-652215c673ab/centos/gpg
+profile::docker_ucp_manager::docker_image: docker/ucp:3.1.1
