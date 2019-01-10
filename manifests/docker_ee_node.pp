@@ -1,4 +1,4 @@
-# docker_ucp_manager.pp
+# docker_ee_node.pp
 # Configures a Docker Universal Control Plane (UCP) VM host.
 #
 # Run...
@@ -14,7 +14,7 @@
 #
 # Use the docker_ee Puppet Tasks to retrieve tokens and join clusters.
 #
-class docker_ee::docker_ucp_manager (
+class docker_ee::docker_ee_node (
   Stdlib::Httpurl $docker_ee_url,
   Stdlib::Httpurl $docker_ee_key_source,
   String          $docker_image = 'docker/ucp:3.1.0',

@@ -33,12 +33,12 @@ class docker_ee (
   -> class { '::docker_ee::configure': }
   ~> class { '::docker_ee::run': }
   -> Class['docker_ee']
-  -> Class['::harden_docker']
+  # -> Class['::harden_docker']
 
-  class { '::harden_docker':
-    restrict_network_traffic_between_containers => false,
-    disable_userland_proxy                      => false,
-    enable_live_restore                         => false,
-  }
+  # class { '::harden_docker':
+  #   restrict_network_traffic_between_containers => false,
+  #   disable_userland_proxy                      => false,
+  #   enable_live_restore                         => false,
+  # }
 
 }

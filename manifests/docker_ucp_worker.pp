@@ -5,7 +5,7 @@
 # docker swarm join-token -q worker
 # docker swarm join --token SWMTKN-1-5rwojlxfp03s4cz9jkfz672e3trkglp01atql75kfnky6timch-8xnqk36zsaxa2d11b35vopdof 192.168.5.28:2377
 #
-# Use the docker_ucp Puppet Tasks to retrieve tokens and join clusters.
+# Use the docker_ee Puppet Tasks to retrieve tokens and join clusters.
 #
 class docker_ee::docker_ucp_worker (
   Stdlib::Httpurl $docker_ee_url,
