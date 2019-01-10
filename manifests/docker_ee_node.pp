@@ -17,20 +17,52 @@
 class docker_ee::docker_ee_node (
   Stdlib::Httpurl $docker_ee_url,
   Stdlib::Httpurl $docker_ee_key_source,
-  String          $docker_image = 'docker/ucp:3.1.0',
 ) {
-  # docker image pull docker/ucp:3.1.0
-  docker::image { $docker_image: }
+  # String          $docker_image = 'docker/ucp:3.1.0',
+  #
+  # docker::image { $docker_image: }
+  #
+  # class { '::docker':
+  #   docker_ee                 => true,
+  #   docker_ee_source_location => $docker_ee_url,
+  #   docker_ee_key_source      => $docker_ee_key_source,
+  # }
+
+  file { '/var/lib/docker':
+    ensure => directory,
+  }
+
+  # NITC users 'serverbuild' for UID 1000. That conflicts with the 'jenkins' user that the jenkins container tries to use.
+  # Probably not a good idea to remove serverbuild. Not sure what it is used for.
+  # So that is why we are adding 'serverbuild' to the docker group
+  user { 'serverbuild':
+    ensure => present,
+    gid    => 1000,
+    groups => ['docker'],
+    shell  => '/bin/bash',
+    uid    => 1000,
+  }
+
+  mount { '/var/lib/docker':
+    ensure  => 'mounted',
+    device  => '/dev/appVG/appLV',
+    fstype  => 'xfs',
+    options => 'defaults',
+    target  => '/etc/fstab',
+  }
 
   class { '::docker':
     docker_ee                 => true,
     docker_ee_source_location => $docker_ee_url,
     docker_ee_key_source      => $docker_ee_key_source,
-  }
-
-  class { '::harden_docker':
+  } -> class { '::harden_docker':
     restrict_network_traffic_between_containers => false,
     disable_userland_proxy                      => false,
     enable_live_restore                         => false,
   }
+
+  yumrepo { 'docker':
+    ensure => 'absent',
+  }
+
 }
