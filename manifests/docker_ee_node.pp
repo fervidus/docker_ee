@@ -61,8 +61,8 @@ class docker_ee::docker_ee_node (
     enable_live_restore                         => false,
   }
 
-  yumrepo { 'docker':
-    ensure => 'absent',
-  }
+  # yumrepo { 'docker':
+  #   ensure => 'absent',
+  # }
 
 }
