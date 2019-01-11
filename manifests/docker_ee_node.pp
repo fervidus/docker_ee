@@ -121,9 +121,9 @@ class docker_ee::docker_ee_node (
 
   class { '::harden_docker': }
 
-  ::yumrepo { '::docker':
-    ensure => 'absent',
-  }
+  # ::yumrepo { '::docker':
+  #   ensure => 'absent',
+  # }
 
   # NITC users 'serverbuild' for UID 1000. That conflicts with the 'jenkins' user that the jenkins container tries to use.
   # Probably not a good idea to remove serverbuild. Not sure what it is used for.
