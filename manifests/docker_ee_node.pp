@@ -30,7 +30,7 @@ class docker_ee::docker_ee_node (
   # }
 
   file { 'docker_ee-/var/lib/docker':
-    ensure => directory
+    ensure => directory,
     path   => '/var/lib/docker',
   }
 
