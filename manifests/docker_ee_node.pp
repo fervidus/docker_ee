@@ -40,9 +40,9 @@ class docker_ee::docker_ee_node (
   -> class { '::docker_ee::install': }
   -> class { '::docker_ee::configure': }
   ~> class { '::docker_ee::run': }
-  -> class['::harden_docker']
+  -> class { '::harden_docker': }
 
-  yumrepo { 'docker':
+  ::yumrepo { '::docker':
     ensure => 'absent',
   }
 
