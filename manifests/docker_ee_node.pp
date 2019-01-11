@@ -29,7 +29,7 @@ class docker_ee::docker_ee_node (
   #   docker_ee_key_source      => $docker_ee_key_source,
   # }
 
-  # getting dependency errors, consolidating code below
+
 
   # class { '::docker_ee::pre_install': }
   # -> class { '::docker_ee::yum_configure': }
@@ -38,6 +38,9 @@ class docker_ee::docker_ee_node (
   # -> class { '::docker_ee::configure': }
   # ~> class { '::docker_ee::run': }
   # -> class { '::harden_docker': }
+
+  # code above caused dependency errors.
+  # consolidating seperate classes' code below...
 
   file { 'docker_ee-/var/lib/docker':
     ensure => directory,
