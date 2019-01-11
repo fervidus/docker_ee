@@ -48,7 +48,7 @@ class docker_ee::docker_ee_node (
   # Put EE repository URL in  /etc/yum/vars/dockerurl
   file { '/etc/yum/vars/dockerurl':
     ensure  => file,
-    content => "${::docker_ee::docker_ee_url}/rhel",
+    content => "${::docker_ee::docker_ee_url}/centos",
   }
 
   # Put EE repository URL in  /etc/yum/vars/dockerosversion
@@ -81,7 +81,7 @@ class docker_ee::docker_ee_node (
 
   # ::docker_ee::yum_configure
   # Refresh memcache
-  exec { "/bin/yum-config-manager --add-repo ${::docker_ee::docker_ee_url}/rhel/docker-ee.repo":
+  exec { "/bin/yum-config-manager --add-repo ${::docker_ee::docker_ee_url}/centos/docker-ee.repo":
     creates  => '/etc/yum.repos.d/docker-ee.repo',
   }
 
