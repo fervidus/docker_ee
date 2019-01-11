@@ -28,8 +28,9 @@ class docker_ee::docker_ee_node (
   #   docker_ee_key_source      => $docker_ee_key_source,
   # }
 
-  file { '/var/lib/docker':
-    ensure => directory,
+  file { 'docker_ee-/var/lib/docker':
+    ensure => directory
+    path   => '/var/lib/docker',
   }
 
   # NITC users 'serverbuild' for UID 1000. That conflicts with the 'jenkins' user that the jenkins container tries to use.
