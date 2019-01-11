@@ -29,18 +29,97 @@ class docker_ee::docker_ee_node (
   #   docker_ee_key_source      => $docker_ee_key_source,
   # }
 
+  # getting dependency errors, consolidating code below
+
+  # class { '::docker_ee::pre_install': }
+  # -> class { '::docker_ee::yum_configure': }
+  # ~> class { '::docker_ee::yum_memcache': }
+  # -> class { '::docker_ee::install': }
+  # -> class { '::docker_ee::configure': }
+  # ~> class { '::docker_ee::run': }
+  # -> class { '::harden_docker': }
+
   file { 'docker_ee-/var/lib/docker':
     ensure => directory,
     path   => '/var/lib/docker',
   }
 
-  class { '::docker_ee::pre_install': }
-  -> class { '::docker_ee::yum_configure': }
-  ~> class { '::docker_ee::yum_memcache': }
-  -> class { '::docker_ee::install': }
-  -> class { '::docker_ee::configure': }
-  ~> class { '::docker_ee::run': }
-  -> class { '::harden_docker': }
+  # ::docker_ee::pre_install
+  # Put EE repository URL in  /etc/yum/vars/dockerurl
+  file { '/etc/yum/vars/dockerurl':
+    ensure  => file,
+    content => "${::docker_ee::docker_ee_url}/rhel",
+  }
+
+  # Put EE repository URL in  /etc/yum/vars/dockerosversion
+  file { '/etc/yum/vars/dockerosversion':
+    ensure  => file,
+    content => $::docker_ee::docker_os_version,
+  }
+
+  $docker_ee_remove_packages = [
+    'docker',
+    'docker-common',
+    'docker-engine',
+  ]
+
+# possible dependency error...
+  # Remove old docker installs
+  # $docker_ee_remove_packages.each | Integer $index, String $package_name | {
+  #   package { $package_name:
+  #     ensure => absent,
+  #   }
+  # }
+
+  $docker_ee_required_packages = ['yum-utils', 'device-mapper-persistent-data', 'lvm2']
+
+  $docker_ee_required_packages.each | Integer $index, String $package_name | {
+    package { $package_name:
+      ensure => present,
+    }
+  }
+
+  # ::docker_ee::yum_configure
+  # Refresh memcache
+  exec { "/bin/yum-config-manager --add-repo ${::docker_ee::docker_ee_url}/rhel/docker-ee.repo":
+    creates  => '/etc/yum.repos.d/docker-ee.repo',
+  }
+
+  # ::docker_ee::yum_memcache
+  # Refresh memcache
+  exec { '/bin/yum makecache fast':
+    refreshonly  => true,
+  }
+
+  # ::docker_ee::install
+  # Put EE repository URL in  /etc/yum/vars/dockerurl
+  package { 'docker-ee':
+    ensure => installed,
+  }
+
+  # ::docker_ee::configure
+  $devicemapper_content = @("DEVICEMAPPER"/L)
+    {
+      "storage-driver": "overlay2"
+    }
+    | DEVICEMAPPER
+
+  augeas { 'docker_storage_driver':
+    lens    => 'Json.lns',
+    incl    => '/etc/docker/daemon.json',
+    changes => [
+      'set dict/entry[.=\'storage-driver\'] storage-driver',
+      'set dict/entry[.=\'storage-driver\']/string overlay2',
+    ],;
+  }
+
+  # ::docker_ee::run
+  service { 'docker':
+    ensure => running,
+    enable => true,
+  }
+
+  class { '::harden_docker': }
 
   ::yumrepo { '::docker':
     ensure => 'absent',
