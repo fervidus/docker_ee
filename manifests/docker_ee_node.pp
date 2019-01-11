@@ -81,7 +81,11 @@ class docker_ee::docker_ee_node (
 
   # ::docker_ee::yum_configure
   # Refresh memcache
-  exec { "/bin/yum-config-manager --add-repo ${::docker_ee::docker_ee_url}/centos/docker-ee.repo":
+  # exec { "/bin/yum-config-manager --add-repo ${::docker_ee::docker_ee_url}/centos/docker-ee.repo":
+  #   creates  => '/etc/yum.repos.d/docker-ee.repo',
+  # }
+  # https://storebits.docker.com/ee/centos/sub-f67755a1-fc8d-4177-ba96-4c2a6dd58f64/
+  exec { '/bin/yum-config-manager --add-repo https://storebits.docker.com/ee/centos/sub-f67755a1-fc8d-4177-ba96-4c2a6dd58f64/centos/docker-ee.repo':
     creates  => '/etc/yum.repos.d/docker-ee.repo',
   }
 
