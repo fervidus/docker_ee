@@ -17,6 +17,7 @@
 class docker_ee::docker_ee_node (
   Stdlib::Httpurl $docker_ee_url,
   Stdlib::Httpurl $docker_ee_key_source,
+  String          $docker_os_version = '7',
 ) {
   # String          $docker_image = 'docker/ucp:3.1.0',
   #
@@ -33,37 +34,45 @@ class docker_ee::docker_ee_node (
     path   => '/var/lib/docker',
   }
 
+  class { '::docker_ee::pre_install': }
+  -> class { '::docker_ee::yum_configure': }
+  ~> class { '::docker_ee::yum_memcache': }
+  -> class { '::docker_ee::install': }
+  -> class { '::docker_ee::configure': }
+  ~> class { '::docker_ee::run': }
+  -> class['::harden_docker']
+
   # NITC users 'serverbuild' for UID 1000. That conflicts with the 'jenkins' user that the jenkins container tries to use.
   # Probably not a good idea to remove serverbuild. Not sure what it is used for.
   # So that is why we are adding 'serverbuild' to the docker group
-  user { 'serverbuild':
-    ensure => present,
-    gid    => 1000,
-    groups => ['docker'],
-    shell  => '/bin/bash',
-    uid    => 1000,
-  }
-
-  mount { '/var/lib/docker':
-    ensure  => 'mounted',
-    device  => '/dev/appVG/appLV',
-    fstype  => 'xfs',
-    options => 'defaults',
-    target  => '/etc/fstab',
-  }
-
-  class { '::docker':
-    docker_ee                 => true,
-    docker_ee_source_location => $docker_ee_url,
-    docker_ee_key_source      => $docker_ee_key_source,
-  } -> class { '::harden_docker':
-    restrict_network_traffic_between_containers => false,
-    disable_userland_proxy                      => false,
-    enable_live_restore                         => false,
-  }
-
-  # yumrepo { 'docker':
-  #   ensure => 'absent',
+  # user { 'serverbuild':
+  #   ensure => present,
+  #   gid    => 1000,
+  #   groups => ['docker'],
+  #   shell  => '/bin/bash',
+  #   uid    => 1000,
   # }
+  #
+  # mount { '/var/lib/docker':
+  #   ensure  => 'mounted',
+  #   device  => '/dev/appVG/appLV',
+  #   fstype  => 'xfs',
+  #   options => 'defaults',
+  #   target  => '/etc/fstab',
+  # }
+  #
+  # class { '::docker':
+  #   docker_ee                 => true,
+  #   docker_ee_source_location => $docker_ee_url,
+  #   docker_ee_key_source      => $docker_ee_key_source,
+  # } -> class { '::harden_docker':
+  #   restrict_network_traffic_between_containers => false,
+  #   disable_userland_proxy                      => false,
+  #   enable_live_restore                         => false,
+  # }
+
+  yumrepo { 'docker':
+    ensure => 'absent',
+  }
 
 }
