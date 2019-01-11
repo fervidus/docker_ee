@@ -16,9 +16,9 @@
 #
 class docker_ee::docker_ee_node (
   Stdlib::Httpurl $docker_ee_url,
-  Stdlib::Httpurl $docker_ee_key_source,
   String          $docker_os_version = '7',
 ) {
+  # Stdlib::Httpurl $docker_ee_key_source,
   # String          $docker_image = 'docker/ucp:3.1.0',
   #
   # docker::image { $docker_image: }
@@ -41,6 +41,10 @@ class docker_ee::docker_ee_node (
   -> class { '::docker_ee::configure': }
   ~> class { '::docker_ee::run': }
   -> class['::harden_docker']
+
+  yumrepo { 'docker':
+    ensure => 'absent',
+  }
 
   # NITC users 'serverbuild' for UID 1000. That conflicts with the 'jenkins' user that the jenkins container tries to use.
   # Probably not a good idea to remove serverbuild. Not sure what it is used for.
@@ -70,9 +74,4 @@ class docker_ee::docker_ee_node (
   #   disable_userland_proxy                      => false,
   #   enable_live_restore                         => false,
   # }
-
-  yumrepo { 'docker':
-    ensure => 'absent',
-  }
-
 }
