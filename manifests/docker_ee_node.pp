@@ -108,21 +108,24 @@ class docker_ee::docker_ee_node (
   # Error: Execution of '/usr/bin/yum -d 0 -e 0 -y install docker-ee' returned 1: Error: Nothing to do
   # Error: /Stage[main]/Docker_ee::Docker_ee_node/Package[docker-ee]/ensure: change from 'purged' to 'present' failed: Execution of '/usr/bin/yum -d 0 -e 0 -y install docker-ee' returned 1: Error: Nothing to do
 
-  # ::docker_ee::configure
-  $devicemapper_content = @("DEVICEMAPPER"/L)
-    {
-      "storage-driver": "overlay2"
-    }
-    | DEVICEMAPPER
 
-  augeas { 'docker_storage_driver':
-    lens    => 'Json.lns',
-    incl    => '/etc/docker/daemon.json',
-    changes => [
-      'set dict/entry[.=\'storage-driver\'] storage-driver',
-      'set dict/entry[.=\'storage-driver\']/string overlay2',
-    ],;
-  }
+  # commenting out storage-driver section (augeas command failed)
+
+  # ::docker_ee::configure
+  # $devicemapper_content = @("DEVICEMAPPER"/L)
+  #   {
+  #     "storage-driver": "overlay2"
+  #   }
+  #   | DEVICEMAPPER
+  #
+  # augeas { 'docker_storage_driver':
+  #   lens    => 'Json.lns',
+  #   incl    => '/etc/docker/daemon.json',
+  #   changes => [
+  #     'set dict/entry[.=\'storage-driver\'] storage-driver',
+  #     'set dict/entry[.=\'storage-driver\']/string overlay2',
+  #   ],;
+  # }
 
   # ::docker_ee::run
   service { 'docker':
