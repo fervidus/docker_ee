@@ -51,13 +51,13 @@ class docker_ee::docker_ee_node (
   # Put EE repository URL in  /etc/yum/vars/dockerurl
   file { '/etc/yum/vars/dockerurl':
     ensure  => file,
-    content => "${::docker_ee::docker_ee_url}/centos",
+    content => "${docker_ee_url}/centos",
   }
 
   # Put EE repository URL in  /etc/yum/vars/dockerosversion
   file { '/etc/yum/vars/dockerosversion':
     ensure  => file,
-    content => $::docker_ee::docker_os_version,
+    content => $docker_os_version,
   }
 
   $docker_ee_remove_packages = [
