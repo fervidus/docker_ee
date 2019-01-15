@@ -42,7 +42,7 @@ class docker_ee::docker_ee_node (
   # code above caused dependency errors.
   # consolidating seperate classes' code below...
 
-  file { 'docker_ee-/var/lib/docker':
+  file { 'docker_ee_node-file-resource-/var/lib/docker':
     ensure => directory,
     path   => '/var/lib/docker',
   }
