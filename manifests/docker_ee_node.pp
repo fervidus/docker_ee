@@ -106,7 +106,10 @@ class docker_ee::docker_ee_node (
   # This package statement seems unnecessary
   # Got the error below before it was commented out...
   # Error: Execution of '/usr/bin/yum -d 0 -e 0 -y install docker-ee' returned 1: Error: Nothing to do
-  # Error: /Stage[main]/Docker_ee::Docker_ee_node/Package[docker-ee]/ensure: change from 'purged' to 'present' failed: Execution of '/usr/bin/yum -d 0 -e 0 -y install docker-ee' returned 1: Error: Nothing to do #lint:ignore:140chars
+  # Error: /Stage[main]/Docker_ee::Docker_ee_node/Package[docker-ee]/ensure:
+  #        change from 'purged' to 'present' failed:
+  #        Execution of '/usr/bin/yum -d 0 -e 0 -y install docker-ee' returned 1:
+  # Error: Nothing to do
 
 
   # commenting out storage-driver section (augeas command failed)
